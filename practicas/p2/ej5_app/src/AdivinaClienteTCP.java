@@ -95,13 +95,15 @@ public class AdivinaClienteTCP {
 				// recibimos la respuesta del servidor
 				caracteresLeidos = inReader.readLine();
 
-				System.out.println(caracteresLeidos);
 
 				if (!caracteresLeidos.substring(0, 4).equals("Chao") ){
 
 					boolean correcto = false;
 
 					do {
+
+						System.out.println(caracteresLeidos);
+
 
 						buferEnvio = in.nextLine();
 						// leemos la respuesta a la adivinanza
@@ -127,6 +129,8 @@ public class AdivinaClienteTCP {
 							outPrinter.println(buferEnvio);
 							outPrinter.flush();
 
+							caracteresLeidos = inReader.readLine();
+
 
 						} else {
 							correcto = true;
@@ -139,7 +143,12 @@ public class AdivinaClienteTCP {
 					salir = true;
 				}
 
+
+
 			} while(!salir);
+
+			System.out.println(caracteresLeidos);
+
 
 			socketServicio.close();
 

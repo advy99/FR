@@ -35,7 +35,7 @@ public class ProcesadorAdivina {
 	private String OK = "Ok";
 	private String ERROR = "ERROR";
 	private String Adivinanza = "¿quieres una adivinanza? (si/no)";
-	private String Adios = "Chao pescao, has adivinado " + num_aciertos + " adivinanzas.";
+	private String Adios = "Chao pescao";
 	private ArrayList<Pair<String, String> > adivinanzas;
 	private ArrayList<Pair<String, String> > pistas;
 	private String Fallo = "Te has equivocado, ¿Quieres otra pista? (si/no)";
@@ -120,14 +120,12 @@ public class ProcesadorAdivina {
 					outputStream.flush();
 
 
-					// el servidor recibe la respuesta a la adivinanza
 					datosRecibidos = inputStream.readLine();
 
-					if (datosRecibidos.equals(adivinanzas.get(azar).getValue()) ){
-						num_aciertos++;
-						outputStream.println("Has acertado, " + Adivinanza);
-						outputStream.flush();
-					} else {
+
+					while (!datosRecibidos.equals(adivinanzas.get(azar).getValue())) {
+						// el servidor recibe la respuesta a la adivinanza
+
 						outputStream.println(Fallo);
 						outputStream.flush();
 
@@ -146,10 +144,19 @@ public class ProcesadorAdivina {
 
 							outputStream.println(pista_a_mandar);
 							outputStream.flush();
+						} else {
+							outputStream.println(adivinanzas.get(azar).getKey() );
+							outputStream.flush();
 						}
+
+						datosRecibidos = inputStream.readLine();
 
 
 					}
+
+					num_aciertos++;
+					outputStream.println("Has acertado, " + Adivinanza);
+					outputStream.flush();
 
 
 					datosRecibidos = inputStream.readLine();
@@ -158,7 +165,7 @@ public class ProcesadorAdivina {
 				}
 
 
-				outputStream.println(Adios);
+				outputStream.println(Adios + ", has adivinado " + num_aciertos + " adivinanzas.");
 
 				outputStream.flush();
 
