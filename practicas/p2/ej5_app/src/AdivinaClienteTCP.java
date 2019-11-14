@@ -44,7 +44,7 @@ public class AdivinaClienteTCP {
 			String conexion = "conexion";
 			String no = "no";
 			String si = "si";
-			String otra_adivinanza = "otra_adivinanza";
+			String otra_adivinanza; // se lle por entrada de teclado = "otra_adivinanza";
 			String acierta; // se lle por enrtada de teclado (respuesta dada a la adivinanza)
 
 
@@ -99,14 +99,16 @@ public class AdivinaClienteTCP {
 				if (!caracteresLeidos.substring(0, 4).equals("Chao") ){
 
 					boolean correcto = false;
+					boolean quiere_otra = false;
 
 					do {
 
+						// escribimos la adivinanza
 						System.out.println(caracteresLeidos);
 
 
-						buferEnvio = in.nextLine();
 						// leemos la respuesta a la adivinanza
+						buferEnvio = in.nextLine();
 						buferEnvio = buferEnvio.toLowerCase();
 
 						// mandamos la respuesta del cliente
@@ -114,29 +116,35 @@ public class AdivinaClienteTCP {
 						outPrinter.flush();
 
 
-						caracteresLeidos = inReader.readLine();
-
-						if ( !caracteresLeidos.substring(0, 3).equals("Has") ){
-							// si no has acertado, pide pista
-
-							do{
-								System.out.println(caracteresLeidos);
-								buferEnvio = in.nextLine();
-								buferEnvio = buferEnvio.toLowerCase();
-							} while ( !buferEnvio.equals("no") &&  !buferEnvio.equals("si") );
-
-							// mandamos la respuesta
-							outPrinter.println(buferEnvio);
-							outPrinter.flush();
+						if (!buferEnvio.equals("otra")){
 
 							caracteresLeidos = inReader.readLine();
 
+							if ( !caracteresLeidos.substring(0, 3).equals("Has") ){
+								// si no has acertado, pide pista
 
+								do{
+									System.out.println(caracteresLeidos);
+									buferEnvio = in.nextLine();
+									buferEnvio = buferEnvio.toLowerCase();
+								} while ( !buferEnvio.equals("no") &&  !buferEnvio.equals("si") );
+
+								// mandamos la respuesta
+								outPrinter.println(buferEnvio);
+								outPrinter.flush();
+
+								caracteresLeidos = inReader.readLine();
+
+
+							} else {
+								correcto = true;
+							}
 						} else {
-							correcto = true;
+							quiere_otra = true;
+							caracteresLeidos = inReader.readLine();
 						}
 
-					} while (!correcto);
+					} while (!correcto && !quiere_otra);
 
 
 				} else {

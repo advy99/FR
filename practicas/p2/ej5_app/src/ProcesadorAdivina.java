@@ -116,14 +116,14 @@ public class ProcesadorAdivina {
 
 
 					// mandamos la adivinanza
-					outputStream.println(adivinanzas.get(azar).getKey() );
+					outputStream.println(adivinanzas.get(azar).getKey() + " (escribe \"otra\" para cambiar de adivinanza)");
 					outputStream.flush();
 
 
 					datosRecibidos = inputStream.readLine();
 
 
-					while (!datosRecibidos.equals(adivinanzas.get(azar).getValue())) {
+					while (!datosRecibidos.equals(adivinanzas.get(azar).getValue()) && !datosRecibidos.equals("otra") ) {
 						// el servidor recibe la respuesta a la adivinanza
 
 						outputStream.println(Fallo);
@@ -145,7 +145,7 @@ public class ProcesadorAdivina {
 							outputStream.println(pista_a_mandar);
 							outputStream.flush();
 						} else {
-							outputStream.println(adivinanzas.get(azar).getKey() );
+							outputStream.println(adivinanzas.get(azar).getKey() + " (escribe \"otra\" para cambiar de adivinanza)");
 							outputStream.flush();
 						}
 
@@ -154,12 +154,20 @@ public class ProcesadorAdivina {
 
 					}
 
-					num_aciertos++;
-					outputStream.println("Has acertado, " + Adivinanza);
-					outputStream.flush();
+					if ( !datosRecibidos.equals("otra") ){
+
+						num_aciertos++;
+						outputStream.println("Has acertado, " + Adivinanza);
+						outputStream.flush();
+					} else {
+						outputStream.println(Adivinanza);
+						outputStream.flush();
+
+					}
 
 
 					datosRecibidos = inputStream.readLine();
+
 
 
 				}
