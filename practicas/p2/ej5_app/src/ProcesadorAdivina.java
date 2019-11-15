@@ -99,6 +99,8 @@ public class ProcesadorAdivina {
 
 			if (datosRecibidos.equals("conexion") ){
 
+				System.out.println("Recibida conexión de un cliente, mandamos si quiere adivinanza");
+
 				outputStream.println(Adivinanza);
 				outputStream.flush();
 
@@ -108,13 +110,15 @@ public class ProcesadorAdivina {
 
 				datosRecibidos = inputStream.readLine();
 
+				System.out.println("Recibida respuesta: " + datosRecibidos);
+
 				while (datosRecibidos.equals("si")){
 
 			 		// datosRecibidos == si
 					// seleccionamos la adivinanza
 					int azar = random.nextInt(adivinanzas.size() );
 
-
+					System.out.println("Mandamos una nueva adivinanza");
 					// mandamos la adivinanza
 					outputStream.println(adivinanzas.get(azar).getKey() + " (escribe \"otra\" para cambiar de adivinanza)");
 					outputStream.flush();
@@ -122,7 +126,7 @@ public class ProcesadorAdivina {
 
 					datosRecibidos = inputStream.readLine();
 
-
+					System.out.println("Recibida respuesta de adivinanza: " + datosRecibidos);
 					while (!datosRecibidos.equals(adivinanzas.get(azar).getValue()) && !datosRecibidos.equals("otra") ) {
 						// el servidor recibe la respuesta a la adivinanza
 
@@ -130,6 +134,7 @@ public class ProcesadorAdivina {
 						outputStream.flush();
 
 						datosRecibidos = inputStream.readLine();
+						System.out.println("Recibido información sobre si quiere pista: " + datosRecibidos);
 
 						if (datosRecibidos.equals("si")){
 							int p = random.nextInt(2);
@@ -142,6 +147,7 @@ public class ProcesadorAdivina {
 								pista_a_mandar = pistas.get(azar).getValue();
 							}
 
+							System.out.println("Mandamos la pista");
 							outputStream.println(pista_a_mandar);
 							outputStream.flush();
 						} else {
@@ -149,17 +155,22 @@ public class ProcesadorAdivina {
 							outputStream.flush();
 						}
 
+						System.out.println("Leemos nueva respuesta a la adivinanza");
 						datosRecibidos = inputStream.readLine();
+
 
 
 					}
 
 					if ( !datosRecibidos.equals("otra") ){
 
+						System.out.println("Recibido que quiere acierta la adivinanza, mandamos si quiere una nueva");
+
 						num_aciertos++;
 						outputStream.println("Has acertado, " + Adivinanza);
 						outputStream.flush();
 					} else {
+						System.out.println("Recibido que quiere otra adivinanza, madamos si quiere nueva adivinanza");
 						outputStream.println(Adivinanza);
 						outputStream.flush();
 
@@ -172,6 +183,7 @@ public class ProcesadorAdivina {
 
 				}
 
+				System.out.println("Recibido que no quiere más adivinanza, mandamos despedida y cerramos la conexión");
 
 				outputStream.println(Adios + ", has adivinado " + num_aciertos + " adivinanzas.");
 
