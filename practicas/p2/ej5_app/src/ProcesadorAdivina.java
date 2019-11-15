@@ -72,7 +72,7 @@ public class ProcesadorAdivina {
 
 
 	// Aquí es donde se realiza el procesamiento realmente:
-	void procesa(){
+	synchronized void procesa(){
 
 		// Como máximo leeremos un bloque de 1024 bytes. Esto se puede modificar.
 		//byte [] datosRecibidos=new byte[1024];
